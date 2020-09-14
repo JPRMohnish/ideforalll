@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/codemirror.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/codemirror.min.css">
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/mode/clike/clike.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/theme/dracula.css">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div>
+         <center> <textarea type="text" id="problemcode" name="problemcode" style="border-radius:20px;box-shadow:0 4px 6px 0 rgba(0,0,0,0.2) ;text-align: center;font-size:30px;"de" style="background: #000000;color:#ffffff;height:50px ;width:100px;"> <%= problemcode %> </textarea>   
+          <hr/> </center>   
+            <div  id="problemstatement"  name="problemstatement" style="background: #000000;color:#ffffff;height:auto; 
+            border-radius: 20px 20px 0px 0px;  ;width:100%;font-size: 15px;font-family: 'Times New Roman', Times, serif;"> <h4> <%= statement %> </h4> </div>
+            <hr/>
+            <textarea type="text"  name="lang" id="lang" style="background: #000000;color:#ffffff;height:50px ;width:500px;"><%= lang %></textarea>
+            <br>
+            <textarea type="text" id="codearea1"  name="code" style="background: #000000;color:#ffffff;height:500px ;width:500px;float:left;"><%= code %></textarea>
+   
+            <textarea type="text" id="codearea"   name="code" style="background: #000000;color:#ffffff;height:300px ;width:500px;float:left;"><%= code %></textarea>
+            <textarea type="text" height="100px" width="400px"  id="input" name="input" style="background: #000000;color:#ffffff;height:100px ;width:800px;float:inline-end;"> <%= input %></textarea>
+            <div  id="output" name="output" style="background:white;color:black;height:100px ;width:800px;" > <%= output %> </div>
+        <hr/>
+            <h3>Result:</h3>  <h3 id="result"> </h3>
+          </div>
+
+          <div>
+              <input type="submit" name="submit" value="TestCode" id="submit"/>
+              <input type="submit" name="check" value="Evaluate" id="check"/>
+              
+          </div>
+
+      <script type="text/javascript" >
+      var code;
+
+      $(document).ready(function(){
+      
+      var codemirrorEditor = CodeMirror.fromTextArea( document.getElementById("codearea1"), {
+      lineNumbers: true,
+      mode: "clike",
+      theme: "dracula"
+    });
+    
+    function makePostRequest(path, queryObj) { 
+    axios.post(path, queryObj).then( 
+      (response) => { 
+          var result = response.data; 
+          console.log(result); 
+          $("#output").html(result.output);
+      }, 
+      (error) => { 
+          console.log(error); 
+      } 
+  ); 
+}           
+$("#submit").click(function(){
+               code=$('#codearea').val();
+             var inp=$("#input").val();
+               var lang=$("#lang").val();
+              
+            queryObj = { code:code,input:inp,lang:lang}; 
+            console.log(queryObj);
+            makePostRequest('/codes', queryObj); 
+             });
+
+  });
+  function makePostRequest1(path, queryObj) { 
+    axios.post(path, queryObj).then( 
+      (response) => { 
+          var result = response.data; 
+          console.log(result); 
+          $("#result").html(result.answer);
+      }, 
+      (error) => { 
+          console.log(error); 
+      } 
+  ); 
+}         
+
+  $("#check").click(function(){
+      
+    var codes=$("#codearea").val();
+    var problemcode=$("#problemcode").val();
+    var lang=$("#lang").val();
+    queryObj={code:codes,lang:lang,problemcode:problemcode};
+    console.log(queryObj);
+    makePostRequest1('/check', queryObj); 
+
+  });
+
+  </script>
+    </body>
+</html>

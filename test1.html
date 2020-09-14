@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/codemirror.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/codemirror.min.css"><script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/mode/javascript/javascript.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/theme/base16-dark.css">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script>
+
+          
+          $(document).ready(function(){
+
+            function makePostRequest(path, queryObj) { 
+    axios.post(path, queryObj).then( 
+        (response) => { 
+            var result = response.data; 
+            console.log(result); 
+        }, 
+        (error) => { 
+            console.log(error); 
+        } 
+    ); 
+}   
+               $("#submit").click(function(){
+                var code=$("#codearea").val();
+               var inp=$("#input").val();
+                 var lang=$("#lang").val();
+                
+
+                
+
+              queryObj = { code:code,input:inp,lang:lang}; 
+              console.log(queryObj);
+              makePostRequest('/codes', queryObj); 
+               });
+                     
+              });
+      </script>
+    </head>
+    <body>
+        
+            <div>
+              <textarea type="text" placeholder="language-here" name="lang" id="lang"></textarea>
+              <br>
+              <textarea type="text" id="codearea" height="500px" width="800px" placeholder="codehere" name="code" style="background: #000000;color:#ffffff;height:500px ;width:800px;"></textarea>
+              <br>
+              <textarea type="text" height="100px" width="400px" placeholder="inputhere" id="input" name="input" style="background: #000000;color:#ffffff;height:100px ;width:800px;" ></textarea>
+              
+            </div>
+
+            <div>
+                <input type="submit" name="submit" value="TestCode" id="submit"/>
+            </div>
+
+        <script type="text/javascript" >
+         /* var codemirrorEditor = CodeMirror.fromTextArea(document.getElementById('codearea'), {
+        lineNumbers: true,
+        mode: "javascript",
+        theme: "base16-dark"
+
+        
+      });*/
+
+
+   function func()
+   {
+    $(document).ready(function(){
+
+     var code=$("#codearea").val();
+     var inp=$("#input").val();
+     var lang=$("#lang").val();
+             
+    queryObj = { code:code,input:inp,lang:lang}; 
+    console.log(queryObj);
+makePostRequest('/codes', queryObj); 
+    });
+   }
+
+
+    </script>
+    </body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/codemirror.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/codemirror.min.css">
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/mode/clike/clike.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/theme/dracula.css">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script>
+      </script>
+    </head>
+    <body>
+        
+            <div>
+              <textarea type="text"  name="lang" id="lang"  style="background: #000000;color:#ffffff;height:50px ;width:500px;"><%= lang %></textarea>
+              <br>
+              <textarea type="text" id="codearea1"  name="code" style="background: #000000;color:#ffffff;height:500px ;width:500px;float:left;"><%= code %></textarea>
+     
+              <textarea type="text" id="codearea"   name="code" style="background: #000000;color:#ffffff;height:300px ;width:500px;float:left;"><%= code %></textarea>
+              <textarea type="text" height="100px" width="400px"  id="input" name="input" style="background: #000000;color:#ffffff;height:100px ;width:800px;float:inline-end;"> <%= input %></textarea>
+              <textarea type="text"  id="output" name="input" style="background: #000000;color:#ffffff;height:100px ;width:800px;" > <%= output %> </textarea>
+              
+            </div>
+
+            <div>
+                <input type="submit" name="submit" value="TestCode" id="submit"/>
+            </div>
+
+        <script type="text/javascript" >
+        var code;
+
+        $(document).ready(function(){
+            /*addEventListener(document, "touchstart", function(e) {
+    console.log(e.defaultPrevented);  // will be false
+    e.preventDefault();   // does nothing since the listener is passive
+    console.log(e.defaultPrevented);  // still false
+  }, Modernizr.passiveeventlisteners ? {passive: true} : false);*/
+        
+        var codemirrorEditor = CodeMirror.fromTextArea( document.getElementById("codearea1"), {
+        lineNumbers: true,
+        mode: "clike",
+        theme: "dracula"
+      });
+      var codes;
+      $("#codearea").keydown(function(){
+         codes=$("#codearea").val();
+         console.log(codes);
+      });
+      
+      function makePostRequest(path, queryObj) { 
+    axios.post(path, queryObj).then( 
+        (response) => { 
+            var result = response.data; 
+            console.log(result); 
+            $("#output").html(result.output);
+        }, 
+        (error) => { 
+            console.log(error); 
+        } 
+    ); 
+}           
+$("#submit").click(function(){
+                 code=$('#codearea').val();
+               var inp=$("#input").val();
+                 var lang=$("#lang").val();
+                
+              queryObj = { code:code,input:inp,lang:lang}; 
+              console.log(queryObj);
+              makePostRequest('/codes', queryObj); 
+               });
+
+    });
+      
+
+    </script>
+    </body>
+</html>

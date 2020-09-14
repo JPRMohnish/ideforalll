@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+  
+              function makePostRequest(path, queryObj) { 
+      axios.post(path, queryObj).then( 
+          (response) => { 
+              var result = response.data; 
+              console.log(result); 
+          }, 
+          (error) => { 
+              console.log(error); 
+          } 
+      ); 
+  }   
+                 $("#submit").click(function(){
+                 var problemcode=$("#submit").val();
+
+                queryObj = { problemcode:problemcode}; 
+                console.log(queryObj);
+                makePostRequest('/anyproblem', queryObj); 
+                 });
+                       
+                });
+        </script>
+    </head>
+
+    <body>
+    </div>
+        
+            <% for(let i=problems.length+1;i>=0 ;i--) {%>
+               <button type="submit" name="submit" id="submit" > <%=problems[i] %> </button>
+         <hr/>
+             <%} %>
+            </body>
+</html>

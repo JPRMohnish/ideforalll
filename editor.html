@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Code Editor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/codemirror.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/codemirror.min.css"><script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/mode/javascript/javascript.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/theme/base16-dark.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        var code,lang;
+        $("#submit").click(function(){
+            code=$("#codearea").val();
+            lang=$("#lang").val();
+            /*
+            * Perform some validation here.
+            */
+           //code="#include <stdio.h> \n int main() \n { printf(\"hello\"); return 0;}"
+            lang="cpp14"
+           console.log(code+" "+lang)
+            $.post("/codes",{code:code,lang:lang},function(data){
+                console.log(data);
+            });
+        });
+    });
+    </script>
+  </head>
+
+  <body>
+      <select name="lang",id="lang">
+        <option value="C++">C</option>
+        <option value="C++">C++</option>
+      </select>
+      <br>
+      <input type="text" id="codearea" height="500px" width="800px" placeholder="codehere" name="code" >
+       <input type="submit" id="submit" value="Submit">
+
+    <script type="text/javascript" >
+    var codemirrorEditor = CodeMirror.fromTextArea(document.getElementById('codearea'), {
+  lineNumbers: true,
+  mode: "javascript",
+  theme: "base16-dark"
+});
+     /*function codesubmitter()
+     {
+           var code=document.getElementById('codearea').innerHTML;
+
+           axios.post('http://localhost:3000/code',{code:code,lang:"C++"}).then((response) => {
+              console.log(response);
+               }, (error) => {
+                   console.log(error);
+                    });
+     }*/
+    </script>
+  </body>
+</html>
