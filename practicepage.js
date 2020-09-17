@@ -31,9 +31,9 @@ const  problem_schema = new mongoose.Schema({
   }
 });
 var problem_database;
-var ind=1;
-var problemss=["A"];
-var problem_object=[{problem_code:"problem_code",problem_statement:"problem_statement",input:"input",output:"output"}];
+var ind=0;
+var problemss=[];
+var problem_object=[/*{problem_code:"problem_code",problem_statement:"problem_statement",input:"input",output:"output"}*/];
 mongoose
   .connect(
     db,
@@ -50,9 +50,12 @@ mongoose
       else 
       {
           problems.forEach(function(problem){
+                           if(problem.problem_code.length>1)
+                           {
                    problem_object[ind]={problem_code:problem.problem_code,problem_statement:problem.problem_statement,input:problem.input,output:problem.output};
                    problemss[ind]=problem.problem_code;
                    ind++;
+                           }
           });
       }
   });

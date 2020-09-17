@@ -7,45 +7,49 @@
         <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/mode/clike/clike.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/theme/dracula.css">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>.
+
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/addon/hint/anyword-hint.js"></script>
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/addon/hint/javascript-hint.js"></script>
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/addon/hint/show-hint.js"></script>
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/addon/hint/html-hint.js"></script>
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/addon/hint/sql-hint.js"></script>
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/addon/hint/xml-hint.js"></script>
+        <script src= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/addon/hint/css-hint.js"></script>
+        <slink rel= "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/addon/hint/show-hint.css">
+
+
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
       <script>
       </script>
     </head>
-    <body>
+    <body class="p-3 mb-2 bg-secondary text-white">
         
             <div>
               <textarea type="text"  name="lang" id="lang"  style="background: #000000;color:#ffffff;height:50px ;width:500px;"><%= lang %></textarea>
               <br>
-              <textarea type="text" id="codearea1"  name="code" style="background: #000000;color:#ffffff;height:500px ;width:500px;float:left;"><%= code %></textarea>
+              <textarea type="text" class="carea" id="codearea1"  name="code" style="background: #000000;color:#ffffff;height:1000px ;width:500px;float:left;"><%= code %></textarea>
      
-              <textarea type="text" id="codearea"   name="code" style="background: #000000;color:#ffffff;height:300px ;width:500px;float:left;"><%= code %></textarea>
-              <textarea type="text" height="100px" width="400px"  id="input" name="input" style="background: #000000;color:#ffffff;height:100px ;width:800px;float:inline-end;"> <%= input %></textarea>
-              <textarea type="text"  id="output" name="input" style="background: #000000;color:#ffffff;height:100px ;width:800px;" > <%= output %> </textarea>
-              
+               <textarea type="text" height="100px" width="400px"  id="input" name="input" style="background: #000000;color:#ffffff;height:200px ;width:50%;"> <%= input %></textarea>
+              <textarea type="text"  id="output" name="input" style="background: #000000;color:#ffffff;height:200px ;width:50%;float:left" > <%= output %> </textarea>
             </div>
-
             <div>
-                <input type="submit" name="submit" value="TestCode" id="submit"/>
-            </div>
+                <input type="submit" name="submit" value="Test Code" id="submit" class="btn btn-success" style="margin-left:47% ;border-radius:20px;box-shadow:0 4px 6px 0 rgba(0,0,0,0.2)"/>
+            </div> 
 
         <script type="text/javascript" >
         var code;
 
         $(document).ready(function(){
-            /*addEventListener(document, "touchstart", function(e) {
-    console.log(e.defaultPrevented);  // will be false
-    e.preventDefault();   // does nothing since the listener is passive
-    console.log(e.defaultPrevented);  // still false
-  }, Modernizr.passiveeventlisteners ? {passive: true} : false);*/
-        
+
+
         var codemirrorEditor = CodeMirror.fromTextArea( document.getElementById("codearea1"), {
         lineNumbers: true,
         mode: "clike",
-        theme: "dracula"
-      });
-      var codes;
-      $("#codearea").keydown(function(){
-         codes=$("#codearea").val();
-         console.log(codes);
+        theme: "dracula",
+        tabSize: 4,
+        extraKeys:{"Ctrl-Space":"autocomplete"}
       });
       
       function makePostRequest(path, queryObj) { 
@@ -61,7 +65,7 @@
     ); 
 }           
 $("#submit").click(function(){
-                 code=$('#codearea').val();
+                 code=codemirrorEditor.getValue();
                var inp=$("#input").val();
                  var lang=$("#lang").val();
                 
