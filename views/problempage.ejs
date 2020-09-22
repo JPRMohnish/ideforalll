@@ -28,8 +28,17 @@
             <div  id="problemstatement"  name="problemstatement" style="background: #000000;color:#ffffff;height:auto; 
             border-radius: 20px 20px 0px 0px;  ;width:100%;font-size: 12px;font-family: 'Times New Roman', Times, serif;"> <h4> <%= statement %> </h4> </div>
             <hr/>
-            <textarea type="text"  name="lang" id="lang" style="background: #000000;color:#ffffff;height:50px ;width:500px;" style="border-radius:20px;box-shadow:0 4px 6px 0 rgba(0,0,0,0.2)"><%= lang %></textarea>
-            <br>
+            <label  class="label label-primary" for="lang">Choose a language:</label>
+            <select class="btn btn-primary dropdown-toggle" id="lang" name="lang">
+            <option value="cpp14">cpp14</option>
+            <option value="c">c</option>
+            <option value="cpp11">cpp11</option>
+            <option value="cpp17">cpp17</option>
+            <option value="java">java</option>
+            <option value="python2">python2</option>
+            <option value="python3">python3</option>
+            </select>
+             <br>
             <textarea type="text" id="codearea1"  name="code" style="background: #000000;color:#ffffff;height:500px ;width:500px;float:left;"><%= code %></textarea>
    
             <textarea type="text" height="100px" width="400px"  id="input" name="input" style="background: #000000;color:#ffffff;height:150px ;width:50%;"> <%= input %></textarea>
@@ -42,7 +51,9 @@
           <div>
               <input type="submit" name="submit" value="TestCode" id="submit" style="margin-left:13%;border-radius:20px;box-shadow:0 4px 6px 0 rgba(0,0,0,0.2)" class="btn btn-secondary"/>
               <input type="submit" name="check" value="Evaluate" id="check" style="border-radius:20px;box-shadow:0 4px 6px 0 rgba(0,0,0,0.2)" class="btn btn-success"/>
-              
+              <div id='loader' style='display: none;float:left'>
+              <img src='https://static.dribbble.com/users/2346349/screenshots/9246147/media/06971345603f8422d664fa0ea362b3a5.gif' style = "margin-left:30%;"  width='100px' height='100px'>
+              </div>
           </div>
 
       <script type="text/javascript" >
@@ -61,6 +72,8 @@
       (response) => { 
           var result = response.data; 
           console.log(result); 
+          $("#submit").attr("disabled",false);
+          $("#loader").hide();
           $("#output").html(result.output);
       }, 
       (error) => { 
@@ -69,6 +82,8 @@
   ); 
 }           
 $("#submit").click(function(){
+  $("#submit").attr("disabled",true);
+  $("#loader").show();
                code=codemirrorEditor.getValue();
              var inp=$("#input").val();
                var lang=$("#lang").val();
@@ -85,6 +100,8 @@ $("#submit").click(function(){
           var result = response.data; 
           console.log(result); 
           $("#result").html(result.answer);
+          $("#check").attr("disabled",false);
+          $("#loader").hide();
       }, 
       (error) => { 
           console.log(error); 
@@ -93,7 +110,8 @@ $("#submit").click(function(){
 }         
 
   $("#check").click(function(){
-      
+    $("#check").attr("disabled",true);
+    $("#loader").show();
     var codes=codemirrorEditor.getValue();
     var problemcode=$("#problemcode").val();
     var lang=$("#lang").val();
